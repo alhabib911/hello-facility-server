@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion, ObjectId,  } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId, } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const express = require('express')
 const cors = require('cors');
@@ -38,6 +38,9 @@ async function run() {
     const AddBlogCollection = client.db('HelloFacility').collection('Blog')
     const userCollection = client.db('HelloFacility').collection('User')
     const EmployeeCollection = client.db('HelloFacility').collection('Employee')
+    const AddVendorCollection = client.db('HelloFacility').collection('Vendor')
+    const AddProjectCollection = client.db('HelloFacility').collection('Project')
+    const AddCashBookCollection = client.db('HelloFacility').collection('CashBook')
 
 
     // Add new gallery image
@@ -170,11 +173,56 @@ async function run() {
       res.send(result);
     })
 
-  
-   
 
+    // Hello Facility Accounts
 
+    // Add Vendor
+    app.post('/vendor', async (req, res) => {
+      const newVendor = req.body
+      console.log('add', newVendor)
+      const result = await AddVendorCollection.insertOne(newVendor)
+      res.send(result)
+    })
 
+    // Get Vendor
+    app.get('/vendor', async (req, res) => {
+      const query = {}
+      const cursor = AddVendorCollection.find(query)
+      const vendor = await cursor.toArray()
+      res.send(vendor)
+    })
+
+    // Add Project
+    app.post('/project', async (req, res) => {
+      const newProject = req.body
+      console.log('add', newProject)
+      const result = await AddProjectCollection.insertOne(newProject)
+      res.send(result)
+    })
+
+    // Get Project
+    app.get('/project', async (req, res) => {
+      const query = {}
+      const cursor = AddProjectCollection.find(query)
+      const project = await cursor.toArray()
+      res.send(project)
+    })
+
+    // Add CashBook
+    app.post('/cashbook', async (req, res) => {
+      const newCashBook = req.body
+      console.log('add', newCashBook)
+      const result = await AddCashBookCollection.insertOne(newCashBook)
+      res.send(result)
+    })
+
+     // Get CashBook
+     app.get('/cashbook', async (req, res) => {
+      const query = {}
+      const cursor = AddCashBookCollection.find(query)
+      const cashBook = await cursor.toArray()
+      res.send(cashBook)
+    })
 
 
   }
