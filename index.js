@@ -41,6 +41,8 @@ async function run() {
     const AddVendorCollection = client.db('HelloFacility').collection('Vendor')
     const AddProjectCollection = client.db('HelloFacility').collection('Project')
     const AddCashBookCollection = client.db('HelloFacility').collection('CashBook')
+    const AddBankBookCollection = client.db('HelloFacility').collection('BankBook')
+    const AddDirectExpenseCollection = client.db('HelloFacility').collection('DirectExpense')
 
 
     // Add new gallery image
@@ -216,12 +218,44 @@ async function run() {
       res.send(result)
     })
 
-     // Get CashBook
-     app.get('/cashbook', async (req, res) => {
+    // Get CashBook
+    app.get('/cashbook', async (req, res) => {
       const query = {}
       const cursor = AddCashBookCollection.find(query)
       const cashBook = await cursor.toArray()
       res.send(cashBook)
+    })
+
+    // Add BankBook
+    app.post('/bankbook', async (req, res) => {
+      const newBankBook = req.body
+      console.log('add', newBankBook)
+      const result = await AddBankBookCollection.insertOne(newBankBook)
+      res.send(result)
+    })
+
+    // Get BankBook
+    app.get('/bankbook', async (req, res) => {
+      const query = {}
+      const cursor = AddBankBookCollection.find(query)
+      const bankBook = await cursor.toArray()
+      res.send(bankBook)
+    })
+
+    // Add DirectExpense
+    app.post('/direct-expense', async (req, res) => {
+      const newDirectExpense = req.body
+      console.log('add', newDirectExpense)
+      const result = await AddDirectExpenseCollection.insertOne(newDirectExpense)
+      res.send(result)
+    })
+
+    // Get DirectExpense
+    app.get('/direct-expense', async (req, res) => {
+      const query = {}
+      const cursor = AddDirectExpenseCollection.find(query)
+      const directExpense = await cursor.toArray()
+      res.send(directExpense)
     })
 
 
