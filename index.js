@@ -43,6 +43,7 @@ async function run() {
     const AddCashBookCollection = client.db('HelloFacility').collection('CashBook')
     const AddBankBookCollection = client.db('HelloFacility').collection('BankBook')
     const AddDirectExpenseCollection = client.db('HelloFacility').collection('DirectExpense')
+    const AddGaExpenseCollection = client.db('HelloFacility').collection('GAExpense')
 
 
     // Add new gallery image
@@ -258,6 +259,22 @@ async function run() {
       res.send(directExpense)
     })
 
+
+      // Add General & Admin Expense
+      app.post('/ga-expense', async (req, res) => {
+        const newGaExpense = req.body
+        console.log('add', newGaExpense)
+        const result = await AddGaExpenseCollection.insertOne(newGaExpense)
+        res.send(result)
+      })
+
+      // Get  General & Admin Expense
+    app.get('/ga-expense', async (req, res) => {
+      const query = {}
+      const cursor = AddGaExpenseCollection.find(query)
+      const gaExpense = await cursor.toArray()
+      res.send(gaExpense)
+    })
 
   }
   finally {
